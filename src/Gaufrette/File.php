@@ -55,7 +55,18 @@ class File
         $this->key = $key;
         $this->name = $key;
         $this->filesystem = $filesystem;
+	}
+
+    /**
+     * Returns the filesystem object, in case we need direct access
+     *
+     * @return string
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
     }
+
 
     /**
      * Returns the key
@@ -114,10 +125,30 @@ class File
      * Returns the file modified time
      *
      * @return int
-     */    
+     */
     public function getMtime()
     {
         return $this->mtime = $this->filesystem->mtime($this->key);
+    }
+
+    /**
+     * Returns the file mime type
+     *
+     * @return int
+     */
+    public function getMimetype()
+    {
+        return $this->mtime = $this->filesystem->mimetype($this->key);
+    }
+
+    /**
+     * Returns the checksum for a file
+     *
+     * @return int
+     */
+    public function getChecksum()
+    {
+        return $this->checksum = $this->filesystem->checksum($this->key);
     }
 
     /**

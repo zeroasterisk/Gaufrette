@@ -217,6 +217,20 @@ class Filesystem
     }
 
     /**
+     * Returns the mimetype for an object
+     *
+     * @param string $key
+     *
+     * @return string a mimetype, eg: image/jpeg
+     */
+    public function mimetype($key)
+    {
+        $this->assertHasFile($key);
+
+        return $this->adapter->mimetype($key);
+    }
+
+    /**
      * Returns the checksum of the specified file's content
      *
      * @param string $key

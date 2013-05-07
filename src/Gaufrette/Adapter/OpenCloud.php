@@ -163,6 +163,21 @@ class OpenCloud implements Adapter,
     }
 
     /**
+     * Returns the mimetype for an object
+     *
+     * @param string $key
+     *
+     * @return string a mimetype, eg: image/jpeg
+     */
+    public function mimetype($key)
+    {
+        $this->initialize();
+        $object = $this->tryGetObject($key);
+        $mimetype = $object->content_type;
+        return $mimetype;
+    }
+
+    /**
      * Deletes the file
      *
      * @param string $key
@@ -218,7 +233,12 @@ class OpenCloud implements Adapter,
     public function checksum($key)
     {
         $this->initialize();
-        return $this->tryGetObject($key)->getETag();
+        $object = $this->tryGetObject($key);
+        $checksum = $object->getETag();
+        if (empty($checksum) && !empty($object->extra_headers['Etag'])) {
+            $checksum = $object->extra_headers['Etag'];
+        }
+        return $checksum;
     }
 
     /**
